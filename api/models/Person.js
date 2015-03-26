@@ -6,7 +6,7 @@
 */
 
 module.exports = {
-	connection : "mongodbServer",
+
 	attributes : {
 		age : {
 			type : "integer",

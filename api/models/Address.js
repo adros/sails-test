@@ -7,7 +7,6 @@
 
 module.exports = {
 
-	connection : "mongodbServer",
 	attributes : {
 		street : {
 			type : "string",
