@@ -17,11 +17,16 @@ module.exports = {
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
 
-
-
-  models: {
-    connection: 'scalingoMongoDB'
-  },
+  connections: {
+    mongoDB: {
+      adapter: 'sails-mongo',
+      host: 'books-adros-7266.mongo.dbs.appsdeck.eu',
+      port: 30135,
+      user: 'books-adros-7266',
+      password: process.env.MONGO_PASSWD,
+      database: 'books-adros-7266'
+    }
+  }
 
   /***************************************************************************
    * Set the port in the production environment to 80                        *
