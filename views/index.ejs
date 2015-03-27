@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>New Sails App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="/styles/importer.css">
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" href="/bootstrap/css/theme.css">
+
+</head>
+
+<body data-ng-app="single-page-app">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-ng-init="navCollapsed = true" data-ng-click="navCollapsed = !navCollapsed">
+					<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Project name</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse" ng-class="{'in':!navCollapsed}">
+				<ul class="nav navbar-nav" data-ng-init="active = 'home'" data-ng-click="navCollapsed = true">
+					<li data-ng-class="{'active':active=='home'}"><a href="#/" data-ng-click="active = 'home'">Home</a></li>
+					<li data-ng-class="{'active':active=='about'}"><a href="#/about" data-ng-click="active = 'about'">About us</a></li>
+					<li data-ng-class="{'active':active=='tutorial'}"><a href="#/tutorial" data-ng-click="active = 'tutorial'">Read tutorial</a></li>
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</nav>
+
+	<div class="container">
+		<div data-ng-view class="jumbotron"></div>
+	</div>
+
+	<script src="/angular/angular.js"></script>
+	<script src="/angular-route/angular-route.js"></script>
+	<script src="/angular-bootstrap/ui-bootstrap.js"></script>
+	<script src="/app/main.js"></script>
+	<!--<script src="/sails/sails.io.js"></script>-->
+</body>
+</html>

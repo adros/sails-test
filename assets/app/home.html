@@ -1,0 +1,27 @@
+<h2>Home</h2>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2">
+      <!--Sidebar content-->
+
+      Search: <input ng-model="kko">
+      Sort by:
+      <select ng-model="orderProp">
+        <option value="name">Alphabetical</option>
+        <option value=createdAt>Newest</option>
+      </select>
+
+    </div>
+    <div class="col-md-10">
+      <!--Body content-->
+
+      <ul class="companies">
+        <li ng-repeat="company in companies | filter:kko | orderBy:orderProp" class="thumbnail">
+          <a href="#/phones/{{company.id}}">{{company.name}}</a>
+          <p>{{company.createdAt}}</p>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>
