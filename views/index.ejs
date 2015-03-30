@@ -10,35 +10,56 @@
 </head>
 
 <body data-ng-app="single-page-app">
-	<nav class="navbar navbar-inverse navbar-fixed-top">
+	<nav class="navbar navbar-inverse navbar-fixed-top" data-ng-controller="MenuController">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-ng-init="navCollapsed = true" data-ng-click="navCollapsed = !navCollapsed">
-					<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+					<span class="sr-only"><%= __("Toggle navigation") %></span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Project name</a>
+				<a class="navbar-brand" href="#"><%= __("Companies") %></a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse" data-ng-class="{'in':!navCollapsed}">
-				<ul class="nav navbar-nav" data-ng-init="active = 'home'" data-ng-click="navCollapsed = true">
-					<li data-ng-class="{'active':active=='home'}"><a href="#/" data-ng-click="active = 'home'">Home</a></li>
-					<li data-ng-class="{'active':active=='company'}"><a href="#/company" data-ng-click="active = 'company'">Companies</a></li>
-					<li data-ng-class="{'active':active=='tutorial'}"><a href="#/tutorial" data-ng-click="active = 'tutorial'">Read tutorial</a></li>
+				<ul class="nav navbar-nav" data-ng-click="navCollapsed = true">
+					<li data-ng-class="{'active':isActive('home')}"><a href="#/"><%= __("Home") %></a></li>
+					<li data-ng-class="{'active':isActive('company')}"><a href="#/company"><%= __("Companies") %></a></li>
+					<li data-ng-class="{'active':isActive('new')}" class="dropdown" data-dropdown data-on-toggle="toggled(open)"><a class="dropdown-toggle"
+						data-dropdown-toggle href="" data-ng-click="stopEvent($event)"><%= __("New") %> <b class="caret"></b>
+					</a>
+						<ul class="dropdown-menu">
+							<li><a href="#/company/new"><%= __("Company") %></a></li>
+							<li><a href="#/person/new"><%= __("Person") %></a></li>
+						</ul></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="" data-ng-click="setLang('en')">[en]</a></li>
+					<li><a href="" data-ng-click="setLang('sk')">[sk]</a></li>
 				</ul>
 			</div>
-			<!--/.nav-collapse -->
 		</div>
+
+
 	</nav>
 
 	<div class="container">
 		<div data-ng-view class="jumbotron"></div>
 	</div>
 
+
 	<script src="/angular/angular.js"></script>
+	<script src="/angular-i18n/angular-locale_<%=res.getLocale()%>.js"></script>
 	<script src="/angular-route/angular-route.js"></script>
 	<script src="/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 	<script src="/angular-block-ui/dist/angular-block-ui.js"></script>
+	<script src="/angular-cookies/angular-cookies.min.js"></script>
+	<script src="/angular-translate/angular-translate.min.js"></script>
 	<script src="/app/main.js"></script>
+	<script src="/app/i18n.js"></script>
 	<script src="/app/company/companyController.js"></script>
+	<script>
+		angular.module("config", []).constant("CONFIG", {
+			locale : "<%=res.getLocale()%>"
+		});
+	</script>
 	<!--<script src="/sails/sails.io.js"></script>-->
 </body>
 </html>

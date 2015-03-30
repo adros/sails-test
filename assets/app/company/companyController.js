@@ -37,6 +37,7 @@ app.controller("CompanyDetailCtrl", [
 			$modal.open({
 				templateUrl : "/app/company/employeesModal.html",
 				controller : "EmployeesModalCtrl",
+				backdrop : "static",
 				size : "lg",
 				resolve : {
 					company : function() {
