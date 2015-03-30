@@ -1,9 +1,11 @@
+/*global angular:true */
 var app = angular.module("single-page-app", [
 	"ngRoute",
-	"ui.bootstrap"
+	"ui.bootstrap",
+	"blockUI"
 ]);
 
-var BASE_TITLE = document.title;
+var BASE_TITLE = app.BASE_TITLE = document.title;
 
 app.config(function($routeProvider) {
 
@@ -12,9 +14,13 @@ app.config(function($routeProvider) {
 		templateUrl : "/app/home.html",
 		controller : "HomeCtrl"
 	})//
-	.when("/about", {
-		templateUrl : "/app/about.html",
-		controller : "AboutCtrl"
+	.when("/company/", {
+		templateUrl : "/app/company/company.html",
+		controller : "CompanyCtrl"
+	})//
+	.when("/company/:id", {
+		templateUrl : "/app/company/companyDetail.html",
+		controller : "CompanyDetailCtrl"
 	})//
 	.when("/tutorial", {
 		templateUrl : "/app/tutorial.html"
@@ -25,26 +31,12 @@ app.config(function($routeProvider) {
 app.controller("HomeCtrl", [
 	"$scope",
 	"$http",
-	function($scope, $http) {
+	function($scope/*, $http*/) {
 		document.title = "Home | " + BASE_TITLE;
-		$http.get("/company/")//
-		.then(function(response) {
-			console.log("ddddd", response.data);
-			$scope.companies = response.data;
-		})//
-		["catch"](function(err) {
-			alert("Error " + (err.message || err.statusText));
-		});
 		$scope.orderProp = "name";
 	}
 ]);
 
-app.controller("AboutCtrl", [
-	"$scope",
-	"$routeParams",
-	function($scope, $routeParams) {
-		document.title = "About | " + BASE_TITLE;
-		return;
-		$scope.phoneId = $routeParams.phoneId;
-	}
-]);
+app.errorHandler = function(err) {
+	alert("Error " + (err.message || err.statusText));
+};

@@ -1,0 +1,17 @@
+<h2>Companies</h2>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-2">
+			Search: <input data-ng-model=query class="form-control"> Sort by: <select data-ng-model="orderProp">
+				<option value="name">Alphabetical</option>
+				<option value=createdAt>Newest</option>
+			</select>
+		</div>
+		<div class="col-md-10">
+			<ul class="companies">
+				<li data-ng-repeat="company in companies | filter:query | orderBy:orderProp" class="thumbnail"><a href="#/company/{{company.id}}">{{company.name}}</a>
+					<p>{{company.createdAt}}</p></li>
+			</ul>
+		</div>
+	</div>
+</div>

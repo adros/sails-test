@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="/styles/importer.css">
 <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
 <link rel="stylesheet" href="/bootstrap/css/theme.css">
-
+<link rel="stylesheet" href="/angular-block-ui/dist/angular-block-ui.min.css">
 </head>
 
 <body data-ng-app="single-page-app">
@@ -18,10 +18,10 @@
 				</button>
 				<a class="navbar-brand" href="#">Project name</a>
 			</div>
-			<div id="navbar" class="collapse navbar-collapse" ng-class="{'in':!navCollapsed}">
+			<div id="navbar" class="collapse navbar-collapse" data-ng-class="{'in':!navCollapsed}">
 				<ul class="nav navbar-nav" data-ng-init="active = 'home'" data-ng-click="navCollapsed = true">
 					<li data-ng-class="{'active':active=='home'}"><a href="#/" data-ng-click="active = 'home'">Home</a></li>
-					<li data-ng-class="{'active':active=='about'}"><a href="#/about" data-ng-click="active = 'about'">About us</a></li>
+					<li data-ng-class="{'active':active=='company'}"><a href="#/company" data-ng-click="active = 'company'">Companies</a></li>
 					<li data-ng-class="{'active':active=='tutorial'}"><a href="#/tutorial" data-ng-click="active = 'tutorial'">Read tutorial</a></li>
 				</ul>
 			</div>
@@ -35,8 +35,10 @@
 
 	<script src="/angular/angular.js"></script>
 	<script src="/angular-route/angular-route.js"></script>
-	<script src="/angular-bootstrap/ui-bootstrap.js"></script>
+	<script src="/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+	<script src="/angular-block-ui/dist/angular-block-ui.js"></script>
 	<script src="/app/main.js"></script>
+	<script src="/app/company/companyController.js"></script>
 	<!--<script src="/sails/sails.io.js"></script>-->
 </body>
 </html>

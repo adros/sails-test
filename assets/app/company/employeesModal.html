@@ -1,0 +1,25 @@
+<div class="modal-header">
+	<h3 class="modal-title">Edit employees</h3>
+</div>
+
+<div class="modal-body">
+	<ul class="employees">
+		<li data-ng-repeat="person in company.employees">{{person.age}}</li>
+	</ul>
+
+	<div class="input-group">
+		<select class="form-control" data-ng-model="personId">
+			<option data-ng-repeat="person in personOptions" value="{{person.id}}">{{person.age}}</option>
+		</select>
+		<div class="input-group-btn">
+			<button class="btn" ng-click="add()" aria-label="Add" title="Add">
+				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+			</button>
+		</div>
+	</div>
+</div>
+
+<div class="modal-footer">
+	<button class="btn" ng-click="clear()">Clear</button>
+	<button class="btn btn-primary" ng-click="ok()">OK</button>
+</div>

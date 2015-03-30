@@ -1,0 +1,12 @@
+<h2>{{company.name}}</h2>
+<div class="container-fluid">
+	<ul>
+		<li><strong>Created: </strong><span>{{company.createdAt | date:'mediumDate'}}</span></li>
+		<li><strong>Updated: </strong><span>{{company.updatedAt | date:'shortDate'}}</span></li>
+		<li><strong>Short name: </strong><span>{{company.shortName}}</span></li>
+		<li><strong>Employees: </strong><a data-ng-click="editEmployees(company)">edit</a>
+			<ul class="employees">
+				<li data-ng-repeat="person in company.employees"><a href="#/person/{{person.id}}">{{person.age}}</a></li>
+			</ul></li>
+	</ul>
+</div>
