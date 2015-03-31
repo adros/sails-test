@@ -1,10 +1,24 @@
 /*global angular:true */
 var app = angular.module("single-page-app");
 
+app.directive('async', function($compile) {
+	return {
+		restrict : 'A',
+		priority : 1000,
+		terminal : true,
+		controller : function($scope, $element) {
+			$element.removeAttr("data-async");
+			setTimeout(function() {
+				$compile($element)($scope);
+			}, 1);
+		}
+	};
+});
+
 app.controller("HomeCtrl", [
 	"$scope",
-	"$http",
-	function($scope/*, $http*/) {
+	//"$http",
+	function($scope) {
 		document.title = "Home | " + app.BASE_TITLE;
 		$scope.chart1Type = "bar2d";
 		$scope.chart1DataSource = {

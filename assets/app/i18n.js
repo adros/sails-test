@@ -13,9 +13,9 @@ var SK = {
 var app = angular.module("single-page-app");
 app.config([
 	"$translateProvider",
-	"CONFIG",
-	function($translateProvider, CONFIG) {
-		$translateProvider.preferredLanguage(CONFIG.locale);
+	"$config",
+	function($translateProvider, $config) {
+		$translateProvider.preferredLanguage($config.locale);
 
 		$translateProvider.translations("en", EN);
 		$translateProvider.translations("sk", SK);

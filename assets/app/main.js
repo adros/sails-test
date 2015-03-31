@@ -1,6 +1,6 @@
 /*global angular:true */
 var app = angular.module("single-page-app", [
-	"config",
+	"app.config",
 	"ngRoute",
 	"ngCookies",
 	"ui.bootstrap",
