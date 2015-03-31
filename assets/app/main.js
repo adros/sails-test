@@ -5,16 +5,17 @@ var app = angular.module("single-page-app", [
 	"ngCookies",
 	"ui.bootstrap",
 	//"blockUI",
-	"pascalprecht.translate"
+	"pascalprecht.translate",
+	"ng-fusioncharts"
 ]);
 
-var BASE_TITLE = app.BASE_TITLE = document.title;
+app.BASE_TITLE = document.title;
 
 app.config(function($routeProvider) {
 
 	$routeProvider//
 	.when("/", {
-		templateUrl : "/app/home.html",
+		templateUrl : "/app/home/home.html",
 		controller : "HomeCtrl"
 	})//
 	// ====================== COMPANY ======================
@@ -40,15 +41,6 @@ app.config(function($routeProvider) {
 	});
 
 });
-
-app.controller("HomeCtrl", [
-	"$scope",
-	"$http",
-	function($scope/*, $http*/) {
-		document.title = "Home | " + BASE_TITLE;
-		$scope.orderProp = "name";
-	}
-]);
 
 app.controller("MenuController", [
 	"$scope",

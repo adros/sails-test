@@ -17,3 +17,7 @@ ul.employees {
 	padding-top: 7px;
 	color: #b94a48;
 }
+
+svg>text:LAST-CHILD {
+	display: none;
+}
