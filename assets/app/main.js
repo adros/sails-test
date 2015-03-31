@@ -1,44 +1,46 @@
 /*global angular:true */
 var app = angular.module("single-page-app", [
-	"config",
+	"app.config",
 	"ngRoute",
 	"ngCookies",
 	"ui.bootstrap",
-	"blockUI",
-	"pascalprecht.translate"
+	//"blockUI",
+	"pascalprecht.translate",
+	"ng-fusioncharts"
 ]);
 
-var BASE_TITLE = app.BASE_TITLE = document.title;
+app.BASE_TITLE = document.title;
 
 app.config(function($routeProvider) {
 
 	$routeProvider//
 	.when("/", {
-		templateUrl : "/app/home.html",
+		templateUrl : "/app/home/home.html",
 		controller : "HomeCtrl"
 	})//
+	// ====================== COMPANY ======================
 	.when("/company/", {
 		templateUrl : "/app/company/companyList.html",
 		controller : "CompanyCtrl"
+	})//
+	.when("/company/new", {
+		templateUrl : "/app/company/companyEdit.html",
+		controller : "CompanyCreateCtrl"
 	})//
 	.when("/company/:id", {
 		templateUrl : "/app/company/companyDetail.html",
 		controller : "CompanyDetailCtrl"
 	})//
+	.when("/company/:id/edit", {
+		templateUrl : "/app/company/companyEdit.html",
+		controller : "CompanyEditCtrl"
+	})//
+	// ====================== OTHER =======================
 	.when("/tutorial", {
 		templateUrl : "/app/tutorial.html"
 	});
 
 });
-
-app.controller("HomeCtrl", [
-	"$scope",
-	"$http",
-	function($scope/*, $http*/) {
-		document.title = "Home | " + BASE_TITLE;
-		$scope.orderProp = "name";
-	}
-]);
 
 app.controller("MenuController", [
 	"$scope",
@@ -47,7 +49,6 @@ app.controller("MenuController", [
 	function($scope, $location, $cookies) {
 		$scope.isActive = function(key) {
 			var p = $location.path();
-			console.log("p", p);
 			switch (key) {
 			case "home":
 				return p == "/";

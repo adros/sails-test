@@ -1,9 +1,10 @@
 <div class="modal-header">
-	<h3 class="modal-title">Edit employees</h3>
+	<h2 class="modal-title">{{company.name}}</h2>
 </div>
 
 <div class="modal-body">
-	<ul class="employees">
+	<h3 class="modal-title">{{"Employees" | translate}}</h3>
+	<ul class="employees list-inline">
 		<li data-ng-repeat="person in company.employees">{{person.age}}</li>
 	</ul>
 
@@ -12,7 +13,7 @@
 			<option data-ng-repeat="person in personOptions" value="{{person.id}}">{{person.age}}</option>
 		</select>
 		<div class="input-group-btn">
-			<button class="btn" ng-click="add()" aria-label="Add" title="Add">
+			<button class="btn" data-ng-click="add()" aria-label="Add" title="Add">
 				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 			</button>
 		</div>
@@ -20,6 +21,6 @@
 </div>
 
 <div class="modal-footer">
-	<button class="btn" ng-click="clear()">Clear</button>
-	<button class="btn btn-primary" ng-click="ok()">Close</button>
+	<button class="btn btn-default" data-ng-click="clear()">Clear</button>
+	<button class="btn btn-primary" data-ng-click="ok()">Close</button>
 </div>
