@@ -1,4 +1,6 @@
-<h2>Companies</h2>
+<div class="page-header">
+	<h1>Companies</h1>
+</div>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-2">
@@ -10,7 +12,7 @@
 		<div class="col-md-10">
 			<ul class="companies">
 				<li data-ng-repeat="company in companies | filter:query | orderBy:orderProp" class="thumbnail"><a href="#/company/{{company.id}}">{{company.name}}</a>
-					<p>{{company.createdAt}}</p></li>
+					<p>{{company.createdAt | date:'medium'}}</p></li>
 			</ul>
 		</div>
 	</div>

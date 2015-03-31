@@ -1,0 +1,47 @@
+<div class="page-header">
+	<h1>{{company.name}}</h1>
+</div>
+
+<form name="form" class="form-horizontal css-form" novalidate="novalidate">
+	<div class="form-group">
+		<label for="com_name" class="col-sm-2 control-label">{{"Name" | translate}}</label>
+		<div class="col-sm-5">
+			<input type="text" class="form-control" id="comName" name="name" data-ng-required="true" data-ng-model="company.name">
+		</div>
+		<div class="col-sm-5 errorMsg" data-ng-show="form.$submitted || form.name.$touched">
+			<span data-ng-show="form.name.$error.required">{{"Name is required." | translate}}</span>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="com_shortName" class="col-sm-2 control-label">{{"Short name" | translate}}</label>
+		<div class="col-sm-5">
+			<input type="text" class="form-control" id="shortName" name="shortName" data-ng-model="company.shortName" required="required">
+		</div>
+		<div class="col-sm-5 errorMsg" data-ng-show="form.$submitted || form.shortName.$touched">
+			<span data-ng-show="form.shortName.$error.required">{{"Short name is required." | translate}}</span>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="com_created" class="col-sm-2 control-label">{{"Created" | translate}}</label>
+		<div class="col-sm-5">
+			<p class="input-group">
+				<input type="text" class="form-control" name="createdAt" data-datepicker-popup="shortDate" data-ng-model="company.createdAt" data-is-open="opened"
+					data-ng-required="true" /> <span class="input-group-btn">
+					<button type="button" class="btn btn-default" data-ng-click="open($event)">
+						<i class="glyphicon glyphicon-calendar"></i>
+					</button>
+				</span>
+			</p>
+		</div>
+		<div class="col-sm-5 errorMsg" data-ng-show="form.$submitted || form.createdAt.$touched">
+			<span data-ng-show="form.createdAt.$error.date">{{"Invalid date format." | translate}}</span>
+			<span data-ng-show="form.createdAt.$error.required">{{"Created is required." | translate}}</span>
+		</div>
+	</div>
+	<p>
+		<button type="submit" class="btn btn-primary" data-ng-click="save()">{{"Save" | translate}}</button>
+		<button type="button" class="btn btn-default" data-ng-click="reset()">{{"Reset" | translate}}</button>
+		<a href="#/company/{{company.id}}" class="btn btn-default">{{"Cancel" | translate}} </a>
+	</p>
+</form>
+

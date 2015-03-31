@@ -4,7 +4,7 @@ var app = angular.module("single-page-app", [
 	"ngRoute",
 	"ngCookies",
 	"ui.bootstrap",
-	"blockUI",
+	//"blockUI",
 	"pascalprecht.translate"
 ]);
 
@@ -24,6 +24,10 @@ app.config(function($routeProvider) {
 	.when("/company/:id", {
 		templateUrl : "/app/company/companyDetail.html",
 		controller : "CompanyDetailCtrl"
+	})//
+	.when("/company/:id/edit", {
+		templateUrl : "/app/company/companyEdit.html",
+		controller : "CompanyEditCtrl"
 	})//
 	.when("/tutorial", {
 		templateUrl : "/app/tutorial.html"
@@ -47,7 +51,6 @@ app.controller("MenuController", [
 	function($scope, $location, $cookies) {
 		$scope.isActive = function(key) {
 			var p = $location.path();
-			console.log("p", p);
 			switch (key) {
 			case "home":
 				return p == "/";

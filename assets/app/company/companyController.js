@@ -30,7 +30,6 @@ app.controller("CompanyDetailCtrl", [
 				document.title = $scope.company.name + " | Company | " + app.BASE_TITLE;
 			})//
 			["catch"](app.errorHandler);
-			$scope.orderProp = "name";
 		};
 
 		$scope.editEmployees = function(company) {
@@ -45,6 +44,54 @@ app.controller("CompanyDetailCtrl", [
 					}
 				}
 			});
+		};
+
+		$scope.init();
+
+	}
+]);
+
+app.controller("CompanyEditCtrl", [
+	"$scope",
+	"$routeParams",
+	"$http",
+	"$location",
+	function($scope, $routeParams, $http, $location) {
+		$scope.master = {};
+		$scope.init = function() {
+			document.title = "Company | " + app.BASE_TITLE;
+			$http.get("/company/" + $routeParams.id)// 
+			.then(function(response) {
+				$scope.master = response.data;
+				$scope.company = angular.copy($scope.master);
+				document.title = $scope.company.name + " | Company | " + app.BASE_TITLE;
+			})//
+			["catch"](app.errorHandler);
+		};
+
+		$scope.open = function($event) {
+			$event.preventDefault();
+			$event.stopPropagation();
+			$scope.opened = true;
+		};
+
+		$scope.save = function() {
+			if ($scope.form.$invalid) {
+				return;
+			}
+			$http.put("/company/" + $scope.company.id, $scope.company)//
+			.then(function() {
+				$location.path("/company/" + $scope.company.id);
+			})//
+			["catch"](app.errorHandler);
+		};
+
+		$scope.reset = function() {
+			$scope.company = angular.copy($scope.master);
+		};
+
+		$scope.cancel = function() {
+			$scope.company = {};
 		};
 
 		$scope.init();
