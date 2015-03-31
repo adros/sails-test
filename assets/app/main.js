@@ -17,9 +17,14 @@ app.config(function($routeProvider) {
 		templateUrl : "/app/home.html",
 		controller : "HomeCtrl"
 	})//
+	// ====================== COMPANY ======================
 	.when("/company/", {
 		templateUrl : "/app/company/companyList.html",
 		controller : "CompanyCtrl"
+	})//
+	.when("/company/new", {
+		templateUrl : "/app/company/companyEdit.html",
+		controller : "CompanyCreateCtrl"
 	})//
 	.when("/company/:id", {
 		templateUrl : "/app/company/companyDetail.html",
@@ -29,6 +34,7 @@ app.config(function($routeProvider) {
 		templateUrl : "/app/company/companyEdit.html",
 		controller : "CompanyEditCtrl"
 	})//
+	// ====================== OTHER =======================
 	.when("/tutorial", {
 		templateUrl : "/app/tutorial.html"
 	});

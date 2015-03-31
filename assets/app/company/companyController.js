@@ -60,10 +60,12 @@ app.controller("CompanyEditCtrl", [
 		$scope.master = {};
 		$scope.init = function() {
 			document.title = "Company | " + app.BASE_TITLE;
+			$scope.title = "Edit company";
 			$http.get("/company/" + $routeParams.id)// 
 			.then(function(response) {
 				$scope.master = response.data;
 				$scope.company = angular.copy($scope.master);
+				$scope.title = $scope.company.name;//for title, keep same afetr change in name
 				document.title = $scope.company.name + " | Company | " + app.BASE_TITLE;
 			})//
 			["catch"](app.errorHandler);
@@ -90,7 +92,40 @@ app.controller("CompanyEditCtrl", [
 			$scope.company = angular.copy($scope.master);
 		};
 
-		$scope.cancel = function() {
+		$scope.init();
+
+	}
+]);
+
+app.controller("CompanyCreateCtrl", [
+	"$scope",
+	"$routeParams",
+	"$http",
+	"$location",
+	function($scope, $routeParams, $http, $location) {
+		$scope.init = function() {
+			document.title = "New company | " + app.BASE_TITLE;
+			$scope.title = "New company";
+		};
+
+		$scope.open = function($event) {
+			$event.preventDefault();
+			$event.stopPropagation();
+			$scope.opened = true;
+		};
+
+		$scope.save = function() {
+			if ($scope.form.$invalid) {
+				return;
+			}
+			$http.post("/company/", $scope.company)//
+			.then(function(response) {
+				$location.path("/company/" + response.data.id);
+			})//
+			["catch"](app.errorHandler);
+		};
+
+		$scope.reset = function() {
 			$scope.company = {};
 		};
 
