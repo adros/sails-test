@@ -21,7 +21,8 @@ app.controller("CompanyDetailCtrl", [
 	"$http",
 	"$modal",
 	"$i18n",
-	function($scope, $routeParams, $http, $modal, $i18n) {
+	"$upload",
+	function($scope, $routeParams, $http, $modal, $i18n, $upload) {
 
 		$scope.init = function() {
 			document.title = $i18n("Company");
@@ -50,6 +51,22 @@ app.controller("CompanyDetailCtrl", [
 					}
 				}
 			});
+		};
+
+		$scope.upload = function(files) {
+			if (files && files.length) {
+				var file = files[0];
+				$upload.upload({
+					url : "/company/uploadAvatar",
+					file : file,
+					fileFormDataName : "avatar"
+				})
+				.success(function(data, status, headers, config) {
+					debugger;
+					console.log("file " + config.file.name + "uploaded. Response: " +
+						JSON.stringify(data));
+				});
+			}
 		};
 
 		$scope.init();

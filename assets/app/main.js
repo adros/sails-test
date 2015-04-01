@@ -6,9 +6,10 @@ var app = angular.module("single-page-app", [
 	"ui.bootstrap",
 	//"blockUI",
 	"pascalprecht.translate",
-	"ng-fusioncharts"
+	"ng-fusioncharts",
+	"angularFileUpload"
 ]);
-
+ 
 app.BASE_TITLE = document.title;
 
 app.config(function($routeProvider) {
