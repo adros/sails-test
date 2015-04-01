@@ -24,14 +24,7 @@
 	<div class="form-group">
 		<label for="com_created" class="col-sm-2 control-label">{{"Created" | translate}}</label>
 		<div class="col-sm-5">
-			<p class="input-group">
-				<input type="text" class="form-control" name="createdAt" data-datepicker-popup="shortDate" data-ng-model="company.createdAt" data-is-open="opened"
-					data-ng-required="true" /> <span class="input-group-btn">
-					<button type="button" class="btn btn-default" data-ng-click="open($event)">
-						<i class="glyphicon glyphicon-calendar"></i>
-					</button>
-				</span>
-			</p>
+			<input type="date" class="form-control" name="createdAt"  data-ng-required="true" data-ng-model="company.createdAt" >
 		</div>
 		<div class="col-sm-5 errorMsg" data-ng-show="form.$submitted || form.createdAt.$touched">
 			<span data-ng-show="form.createdAt.$error.date">{{"Invalid date format." | translate}}</span>
@@ -40,7 +33,6 @@
 	</div>
 	<p>
 		<button type="submit" class="btn btn-primary" data-ng-click="save()">{{"Save" | translate}}</button>
-		<button type="button" class="btn btn-default" data-ng-click="reset()">{{"Reset" | translate}}</button>
 		<a href="#/company/{{company.id}}" class="btn btn-default">{{"Cancel" | translate}} </a>
 	</p>
 </form>

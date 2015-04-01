@@ -62,24 +62,19 @@ app.controller("CompanyEditCtrl", [
 	"$http",
 	"$location",
 	function($scope, $routeParams, $http, $location) {
-		$scope.master = {};
 		$scope.init = function() {
 			document.title = "Company | " + app.BASE_TITLE;
 			$scope.title = "Edit company";
 			$http.get("/company/" + $routeParams.id)// 
 			.then(function(response) {
-				$scope.master = response.data;
-				$scope.company = angular.copy($scope.master);
-				$scope.title = $scope.company.name;//for title, keep same afetr change in name
-				document.title = $scope.company.name + " | Company | " + app.BASE_TITLE;
+				var company = $scope.company = response.data;
+
+				company.createdAt && (company.createdAt = new Date(company.createdAt));
+
+				$scope.title = company.name;//for title, keep same afetr change in name
+				document.title = company.name + " | Company | " + app.BASE_TITLE;
 			})//
 			["catch"](app.errorHandler);
-		};
-
-		$scope.open = function($event) {
-			$event.preventDefault();
-			$event.stopPropagation();
-			$scope.opened = true;
 		};
 
 		$scope.save = function() {
@@ -93,12 +88,7 @@ app.controller("CompanyEditCtrl", [
 			["catch"](app.errorHandler);
 		};
 
-		$scope.reset = function() {
-			$scope.company = angular.copy($scope.master);
-		};
-
 		$scope.init();
-
 	}
 ]);
 
@@ -128,10 +118,6 @@ app.controller("CompanyCreateCtrl", [
 				$location.path("/company/" + response.data.id);
 			})//
 			["catch"](app.errorHandler);
-		};
-
-		$scope.reset = function() {
-			$scope.company = {};
 		};
 
 		$scope.init();
