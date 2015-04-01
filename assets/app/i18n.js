@@ -1,10 +1,8 @@
-var EN = {
-	"Created" : "Created",
-	"Edit" : "Edit"
-};
+var EN = {};
 var SK = {
 	"Created" : "Vytvorene",
-	"Edit" : "Upravit"
+	"Edit" : "Upravit",
+	"Company" : "Spolocnost"
 };
 
 // ====================================================================
@@ -19,5 +17,20 @@ app.config([
 
 		$translateProvider.translations("en", EN);
 		$translateProvider.translations("sk", SK);
+	}
+]);
+
+var TRANSLATIONS = {
+	en : EN,
+	sk : SK
+};
+
+app.factory("$i18n", [
+	"$config",
+	function($config) {
+		var translation = TRANSLATIONS[$config.locale];
+		return function(key) {
+			return (key in translation) ? translation[key] : key;
+		};
 	}
 ]);

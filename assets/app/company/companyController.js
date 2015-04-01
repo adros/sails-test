@@ -20,14 +20,20 @@ app.controller("CompanyDetailCtrl", [
 	"$routeParams",
 	"$http",
 	"$modal",
-	function($scope, $routeParams, $http, $modal) {
+	"$i18n",
+	function($scope, $routeParams, $http, $modal, $i18n) {
 
 		$scope.init = function() {
-			document.title = "Company | " + app.BASE_TITLE;
+			document.title = $i18n("Company");
+
 			$http.get("/company/" + $routeParams.id)// 
 			.then(function(response) {
 				$scope.company = response.data;
-				document.title = $scope.company.name + " | Company | " + app.BASE_TITLE;
+				document.title = [
+					$scope.company.name,
+					$i18n("Company"),
+					app.BASE_TITLE
+				].join(" | ");
 			})//
 			["catch"](app.errorHandler);
 		};
@@ -47,7 +53,6 @@ app.controller("CompanyDetailCtrl", [
 		};
 
 		$scope.init();
-
 	}
 ]);
 
