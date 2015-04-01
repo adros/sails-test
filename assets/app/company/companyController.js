@@ -26,7 +26,7 @@ app.controller("CompanyDetailCtrl", [
 		$scope.init = function() {
 			document.title = $i18n("Company");
 
-			$http.get("/company/" + $routeParams.id)// 
+			$http.get("/company/" + $routeParams.id)//
 			.then(function(response) {
 				$scope.company = response.data;
 				document.title = [
@@ -65,7 +65,7 @@ app.controller("CompanyEditCtrl", [
 		$scope.init = function() {
 			document.title = "Company | " + app.BASE_TITLE;
 			$scope.title = "Edit company";
-			$http.get("/company/" + $routeParams.id)// 
+			$http.get("/company/" + $routeParams.id)//
 			.then(function(response) {
 				var company = $scope.company = response.data;
 
@@ -132,7 +132,7 @@ app.controller("EmployeesModalCtrl", [
 	"company",
 	function($scope, $modalInstance, $http, company) {
 		$scope.company = company;
-		$http.get("/person/?sort=age")// 
+		$http.get("/person/?sort=age")//
 		.then(function(response) {
 			$scope.allPersons = response.data;
 			$scope.allPersonsHash = $scope.allPersons.reduce(function(_obj, item) {
@@ -148,7 +148,7 @@ app.controller("EmployeesModalCtrl", [
 			$modalInstance.close();
 		};
 		$scope.clear = function() {
-			$http["delete"]("/company/" + company.id + "/employee/")// 
+			$http["delete"]("/company/" + company.id + "/employee/")//
 			.then(function() {
 				$scope.company.employees = [];
 				$scope.personOptions = $scope.allPersons;
@@ -157,11 +157,12 @@ app.controller("EmployeesModalCtrl", [
 
 		};
 		$scope.add = function() {
-			var id = $scope.personId, company = $scope.company;
+			var id = $scope.personId,
+				company = $scope.company;
 			if (!id) {
 				return;
 			}
-			$http.post("/company/" + company.id + "/employee/" + id)// 
+			$http.post("/company/" + company.id + "/employee/" + id)//
 			.then(function() {
 				company.employees.push($scope.allPersonsHash[id]);
 				$scope.personOptions = $scope.allPersons.filter(employeesFilter.bind(null, company.employees.map(employeesToIds)));
