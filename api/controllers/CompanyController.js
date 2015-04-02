@@ -2,6 +2,7 @@
 var _ = require("lodash");
 var Promise = require("bluebird");
 var SkipperGridFS = require("skipper-gridfs");
+var im = Promise.promisifyAll(require("imagemagick"));
 
 module.exports = {
 	addEmployee : function(req, res) {
@@ -104,9 +105,10 @@ module.exports = {
 				return res.notFound("image not found");
 			}
 			return blobAdapter().readAsync(filename)
-			.then(function(file) {
+			.then(resize.bind(null, req.query.w, req.query.h))
+			.then(function(resizedFile) {
 				res.contentType(fileInfo.metadata.contentType);
-				res.send(new Buffer(file));
+				res.end(resizedFile, 'binary');
 			});
 		})
 		.catch(res.serverError);
@@ -141,4 +143,25 @@ function getUniqueName(filename, files) {
 		filename = name + "__" + (i++) + "." + ext;
 	}
 	return filename;
+}
+
+function resize(w, h, imageBuffer) {
+	w = parseInt(w);
+	h = parseInt(h);
+	if (!w && !h) {
+		return Promise.resolve(imageBuffer.toString("binary"));
+	}
+	var args = {
+		quality: 0.9,
+		srcData : imageBuffer
+	};
+	w && (args.width = w);
+	h && (args.height = h);
+	return im.resizeAsync(args)
+	.spread(function(stdout, stderr) {
+		if (stderr) {
+			console.error("Err out from image magick: ", stderr);
+		}
+		return stdout;
+	});
 }
