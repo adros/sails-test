@@ -7,7 +7,6 @@ module.exports = {
 	addEmployee : function(req, res) {
 		var company = req.param("company"),
 			employee = req.param("employee");
-
 		Company.findOne(company).populate("employees")//
 		.then(function(company) {
 			if (!company) {
@@ -31,35 +30,115 @@ module.exports = {
 			company.employees = [];
 			return company.save()//
 			.then(res.send.bind(res, {}));
-		})//
-		.caught(res.serverError);
+		})
+		.catch(res.serverError);
 	},
-	uploadAvatar : function(req, res) {
-		var conf = _.extend({}, sails.config.connections.mongoDB, {
-			adapter : SkipperGridFS
-		});
-		new Promise(function(resolve, reject) {
-			req.file("avatar").upload(conf, function(err, filesUploaded) {
-				if (err) {
-					return reject(err);
+	uploadImage : function(req, res) {
+
+		var upstream = Promise.promisifyAll(req.file("image"));
+
+		Promise.all([
+			getAndCleanCompany(req.param("company")),
+			uploadFile(upstream)
+		])
+		.spread(function(company, fileName) {
+			company.image = fileName;
+			return company.save();
+		})
+		.then(function(company) {
+			res.send(company);
+		})
+		//.then(res.send.bind(res))
+		.catch(res.serverError);
+
+		function getAndCleanCompany(companyId) {
+			return Company.findOne(companyId)
+			.then(function(company) {
+				if (company.image) {
+					var img = company.image ;
+					company.image = null;
+					Promise.all([
+						company.save(),
+						blobAdapter().rmAsync(img)
+					])
+					.thenReturn(company);
 				}
-				resolve(filesUploaded);
+				return company;
+			});
+		}
+
+		function uploadFile(upstream) {
+			var reqFilename = upstream._files[0].stream.filename;
+
+			return getCollection("fs.files")
+			.then(function(files) {
+				return Promise.promisifyAll(files.find({
+					filename : {
+						$regex : "^" + stripExt(reqFilename),
+						$options : "i"
+					}
+				})).toArrayAsync();
+			})
+			.then(function(files) {
+				var filename = getUniqueName(reqFilename, files);
+				var opts = _.extend({}, sails.config.connections.mongoDB, {
+					adapter : SkipperGridFS,
+					filename : filename
+				});
+				return upstream.uploadAsync(opts)
+				.thenReturn(filename);
+			});
+		}
+	},
+	downloadImage : function(req, res) {
+		var filename = req.param("name");
+
+		return getCollection("fs.files")
+		.then(function(files) {
+			return files.findOneAsync({
+				filename : filename
 			});
 		})
-		.then(function(filesUploaded) {
-			res.send(filesUploaded);
-		});
-	},
-	download : function(req, res) {
-		var blobAdapter = SkipperGridFS(_.extend({}, sails.config.connections.mongoDB));
-
-		blobAdapter.read("da12ae37-9fdb-4603-b4b2-84f3a8752c10.png", function(error, file) {
-			if (error) {
-				res.json(error);
-			} else {
-				res.contentType('image/png');
-				res.send(new Buffer(file));
+		.then(function(fileInfo) {
+			if (!fileInfo) {
+				return res.notFound("image not found");
 			}
-		});
+			return blobAdapter().readAsync(filename)
+			.then(function(file) {
+				res.contentType(fileInfo.metadata.contentType);
+				res.send(new Buffer(file));
+			});
+		})
+		.catch(res.serverError);
 	}
 };
+
+function stripExt(filename) {
+	var parts = filename.split(".");
+	parts.pop();return parts.join(".");
+}
+
+function blobAdapter() {
+	return Promise.promisifyAll(SkipperGridFS(_.extend({}, sails.config.connections.mongoDB)));
+}
+
+function getCollection(coll) {
+	var sailsMongo = Promise.promisifyAll(sails.adapters["sails-mongo"]);
+	return sailsMongo.nativeAsync("mongoDB", coll)
+	.then(Promise.promisifyAll);
+}
+
+function getUniqueName(filename, files) {
+	var name = filename.split(".");
+	var ext = name.pop();
+	name = name.join(".");
+
+	var usedNames = files.map(function(f) {
+		return f.filename;
+	});
+	var i = 2;
+	while (~usedNames.indexOf(filename)) {
+		filename = name + "__" + (i++) + "." + ext;
+	}
+	return filename;
+}

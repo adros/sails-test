@@ -10,7 +10,7 @@ app.controller("CompanyCtrl", [
 		.then(function(response) {
 			$scope.companies = response.data;
 		})//
-		["catch"](app.errorHandler);
+		.catch(app.errorHandler);
 		$scope.orderProp = "name";
 	}
 ]);
@@ -36,7 +36,7 @@ app.controller("CompanyDetailCtrl", [
 					app.BASE_TITLE
 				].join(" | ");
 			})//
-			["catch"](app.errorHandler);
+			.catch(app.errorHandler);
 		};
 
 		$scope.editEmployees = function(company) {
@@ -57,15 +57,14 @@ app.controller("CompanyDetailCtrl", [
 			if (files && files.length) {
 				var file = files[0];
 				$upload.upload({
-					url : "/company/uploadAvatar",
+					url : "/company/" + $scope.company.id + "/image/",
 					file : file,
-					fileFormDataName : "avatar"
+					fileFormDataName : "image"
 				})
-				.success(function(data, status, headers, config) {
-					debugger;
-					console.log("file " + config.file.name + "uploaded. Response: " +
-						JSON.stringify(data));
-				});
+				.success(function(data/*, status, headers, config*/) {
+					$scope.company.image = data.image;
+				})
+				.error(app.errorHandler);
 			}
 		};
 
@@ -91,7 +90,7 @@ app.controller("CompanyEditCtrl", [
 				$scope.title = company.name;//for title, keep same afetr change in name
 				document.title = company.name + " | Company | " + app.BASE_TITLE;
 			})//
-			["catch"](app.errorHandler);
+			.catch(app.errorHandler);
 		};
 
 		$scope.save = function() {
@@ -102,7 +101,7 @@ app.controller("CompanyEditCtrl", [
 			.then(function() {
 				$location.path("/company/" + $scope.company.id);
 			})//
-			["catch"](app.errorHandler);
+			.catch(app.errorHandler);
 		};
 
 		$scope.init();
@@ -134,7 +133,7 @@ app.controller("CompanyCreateCtrl", [
 			.then(function(response) {
 				$location.path("/company/" + response.data.id);
 			})//
-			["catch"](app.errorHandler);
+			.catch(app.errorHandler);
 		};
 
 		$scope.init();
@@ -158,7 +157,7 @@ app.controller("EmployeesModalCtrl", [
 			}, {});
 			$scope.personOptions = $scope.allPersons.filter(employeesFilter.bind(null, company.employees.map(employeesToIds)));
 		})//
-		["catch"](app.errorHandler);
+		.catch(app.errorHandler);
 
 		///
 		$scope.ok = function() {
@@ -170,7 +169,7 @@ app.controller("EmployeesModalCtrl", [
 				$scope.company.employees = [];
 				$scope.personOptions = $scope.allPersons;
 			})//
-			["catch"](app.errorHandler);
+			.catch(app.errorHandler);
 
 		};
 		$scope.add = function() {
@@ -185,7 +184,7 @@ app.controller("EmployeesModalCtrl", [
 				$scope.personOptions = $scope.allPersons.filter(employeesFilter.bind(null, company.employees.map(employeesToIds)));
 				$scope.personId = null; //clear from model
 			})//
-			["catch"](app.errorHandler);
+			.catch(app.errorHandler);
 		};
 
 		function employeesFilter(usedIds, person) {

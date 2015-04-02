@@ -28,7 +28,7 @@
     "sails": "~0.11.0",
     "sails-disk": "~0.10.0",
     "sails-mongo": "^0.10.5",
-    "skipper-gridfs": "^0.5.3"
+    "skipper-gridfs": "git+https://github.com/adros/skipper-gridfs"
   },
   "scripts": {
     "start": "node app.js --prod",
@@ -37,7 +37,7 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/arakovskyux/sails-test.git"
+    "url": "git://github.com/arakovskyux/sails-test.git#8d98753"
   },
   "author": "arakovskyux",
   "license": ""

@@ -25,6 +25,10 @@
     </div>
 </form>
 
+<div class="" data-ng-show="!!company.image">
+    <img src="/company/images/{{company.image}}"></img>
+</div>
+
 <div class="form-group">
   <input type="file" class="form-control" data-ng-file-select data-ng-file-change="upload($files)" data-ng-multiple="false" accept="'image/*'">
 </div>

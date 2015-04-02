@@ -15,6 +15,12 @@ module.exports = {
 		employees : {
 			collection : "person",
 			via : "companies"
+		},
+		shortName : {
+			type : "string"
+		},
+		image : {
+			type : "string"
 		}
 	}
 };
