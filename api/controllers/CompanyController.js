@@ -151,13 +151,18 @@ function resize(w, h, imageBuffer) {
 	if (!w && !h) {
 		return Promise.resolve(imageBuffer.toString("binary"));
 	}
-	var args = {
-		quality: 0.9,
-		srcData : imageBuffer
-	};
-	w && (args.width = w);
-	h && (args.height = h);
-	return im.resizeAsync(args)
+	return new Promise(function(resolve, reject) {
+		var args = _.template("- -set option:filter:blur 0.8 -filter Lagrange -strip -resize ${size} -quality 90 jpg:-")({
+			size : (w || "") + "x" + (h || "") + (w && h ? "!" : "")
+		}).split(" ");
+		var proc = im.convert(args, function(err, stdout, stderr) {
+			err ? reject(err) : resolve([
+				stdout,
+				stderr
+			]);
+		});
+		proc.stdin.end(imageBuffer);
+	})
 	.spread(function(stdout, stderr) {
 		if (stderr) {
 			console.error("Err out from image magick: ", stderr);
